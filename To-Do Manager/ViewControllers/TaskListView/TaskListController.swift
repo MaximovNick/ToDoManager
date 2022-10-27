@@ -31,12 +31,19 @@ class TaskListController: UITableViewController {
       
         title = "To-Do Manager"
         navigationItem.leftBarButtonItem = editButtonItem
-        tableView.register(TaskCell.self, forCellReuseIdentifier: TaskCell.identifier)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showNextScreen))
+        
+        tableView.register(TaskListCell.self, forCellReuseIdentifier: TaskListCell.identifier)
         loadTasks()
     }
 }
 
 extension TaskListController {
+    
+    @objc func showNextScreen() {
+        lazy var taskEditVC = TaskEditController(style: .grouped)
+        navigationController?.pushViewController(taskEditVC, animated: true)
+    }
     
     private func loadTasks() {
         sectionsTypesPosition.forEach { taskType in
@@ -76,7 +83,7 @@ extension TaskListController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: TaskCell.identifier, for: indexPath) as? TaskCell else {
+            withIdentifier: TaskListCell.identifier, for: indexPath) as? TaskListCell else {
             return UITableViewCell()
         }
       
