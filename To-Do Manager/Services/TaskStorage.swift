@@ -14,7 +14,10 @@ protocol TasksStorageProtocol {
 }
 
 // Сущность "Хранилище задач"
-class TasksStorage: TasksStorageProtocol {
+final class TasksStorage: TasksStorageProtocol {
+    
+    static let shared: TasksStorageProtocol = TasksStorage()
+    private init() {}
     
     func loadTasks() -> [TaskProtocol] {
         // временная реализация, возвращающая тестовую коллекцию задач
