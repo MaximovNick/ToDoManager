@@ -7,9 +7,13 @@
 
 import UIKit
 
-class TaskEditController: UITableViewController {
+protocol TaskTypeControllerDelegate {
+    var doAfterTypeSelected: ((TaskPriority) -> Void)? { get set }
+}
+
+class TaskEditController: UITableViewController, TaskTypeControllerDelegate {
     
-    lazy var taskTypeVC = TaskTypeController(style: .grouped)
+    var doAfterTypeSelected: ((TaskPriority) -> Void)?
     
     // параметры задачи
     var taskText: String = ""
@@ -53,6 +57,12 @@ class TaskEditController: UITableViewController {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: TaskTypeCell.identifier) as? TaskTypeCell else { return UITableViewCell() }
             cell.accessoryType = .disclosureIndicator
             cell.taskTypeLabel.text = taskTitles[taskType]
+            
+            doAfterTypeSelected = { [unowned self] selectedType in
+                taskType = selectedType
+                cell.taskTypeLabel.text = taskTitles[taskType]
+            }
+            
             return cell
         default:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: TaskStatusCell.identifier) as? TaskStatusCell else { return UITableViewCell() }
@@ -61,10 +71,14 @@ class TaskEditController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 1 {
-            navigationController?.pushViewController(taskTypeVC, animated: true)
-        } else {
+        if indexPath.row != 1 {
             return
         }
+        lazy var taskTypeVC = TaskTypeController(style: .grouped)
+        taskTypeVC.delegate = self
+        taskTypeVC.selectedType = taskType
+        navigationController?.pushViewController(taskTypeVC, animated: true)
     }
 }
+
+
