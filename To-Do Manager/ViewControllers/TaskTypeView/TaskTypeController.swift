@@ -18,6 +18,8 @@ class TaskTypeController: UITableViewController {
     
     var selectedType: TaskPriority = .normal
     
+    var delegate: TaskTypeControllerDelegate!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -50,5 +52,11 @@ class TaskTypeController: UITableViewController {
             cell.accessoryType = .none
         }
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedType = taskTypesInformation[indexPath.row].type
+        delegate.doAfterTypeSelected?(selectedType)
+        navigationController?.popViewController(animated: true)
     }
 }
