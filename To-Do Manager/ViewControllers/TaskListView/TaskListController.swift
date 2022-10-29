@@ -10,7 +10,7 @@ import UIKit
 class TaskListController: UITableViewController {
     
     var tasksStatusPosition: [TaskStatus] = [.planed, .completed]
-
+    
     var tasks: [TaskPriority: [TaskProtocol]] = [:] {
         didSet {
             // сортировка списка задача
@@ -28,7 +28,7 @@ class TaskListController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-      
+        
         title = "To-Do Manager"
         navigationItem.leftBarButtonItem = editButtonItem
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showNextScreen))
@@ -47,7 +47,7 @@ extension TaskListController {
             tasks[type]?.append(newTask)
             tableView.reloadData()
         }
-
+        
         navigationController?.pushViewController(taskEditVC, animated: true)
     }
     
@@ -92,7 +92,7 @@ extension TaskListController {
             withIdentifier: TaskListCell.identifier, for: indexPath) as? TaskListCell else {
             return UITableViewCell()
         }
-      
+        
         let taskType = sectionsTypesPosition[indexPath.section]
         guard let currentTask = tasks[taskType]?[indexPath.row] else { return cell }
         
@@ -158,15 +158,36 @@ extension TaskListController {
     }
     
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
         let taskType = sectionsTypesPosition[indexPath.section]
         guard let _ = tasks[taskType]?[indexPath.row] else { return nil }
-        guard tasks[taskType]![indexPath.row].status == .completed else { return nil}
         
         let actionSwipeInstance = UIContextualAction(style: .normal, title: "Не выполнена") { _, _, _ in
             self.tasks[taskType]![indexPath.row].status = .planed
             self.tableView.reloadSections(IndexSet(arrayLiteral: indexPath.section), with: .automatic)
         }
-        return UISwipeActionsConfiguration(actions: [actionSwipeInstance])
+        let actionEditInstance = UIContextualAction(style: .normal, title: "Изменить") { _, _, _ in
+            let editScreen = TaskEditController()
+            editScreen.taskText = self.tasks[taskType]![indexPath.row].title
+            editScreen.taskType = self.tasks[taskType]![indexPath.row].type
+            editScreen.taskStatus = self.tasks[taskType]![indexPath.row].status
+            
+            editScreen.doAfterEdit = { [weak self] title, type, status in
+                guard let self = self else { return }
+                let editTask = Task(title: title, type: type, status: status)
+                self.tasks[taskType]![indexPath.row] = editTask
+                tableView.reloadData()
+            }
+            self.navigationController?.pushViewController(editScreen, animated: true)
+        }
+        actionEditInstance.backgroundColor = .darkGray
+        let actionsConfiguration: UISwipeActionsConfiguration
+        if tasks[taskType]![indexPath.row].status == .completed {
+            actionsConfiguration = UISwipeActionsConfiguration(actions: [actionSwipeInstance, actionEditInstance])
+        } else {
+            actionsConfiguration = UISwipeActionsConfiguration(actions: [actionEditInstance])
+        }
+        return actionsConfiguration
     }
 }
 
