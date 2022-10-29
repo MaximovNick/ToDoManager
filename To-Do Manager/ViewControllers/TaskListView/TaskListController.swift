@@ -41,7 +41,13 @@ class TaskListController: UITableViewController {
 extension TaskListController {
     
     @objc func showNextScreen() {
-        lazy var taskEditVC = TaskEditController(style: .grouped)
+        let taskEditVC = TaskEditController(style: .grouped)
+        taskEditVC.doAfterEdit = { [unowned self] title, type, status in
+            let newTask = Task(title: title, type: type, status: status)
+            tasks[type]?.append(newTask)
+            tableView.reloadData()
+        }
+
         navigationController?.pushViewController(taskEditVC, animated: true)
     }
     
@@ -147,7 +153,6 @@ extension TaskListController {
             tableView.deselectRow(at: indexPath, animated: true)
             return
         }
-        
         tasks[taskType]![indexPath.row].status = .completed
         tableView.reloadSections(IndexSet(arrayLiteral: indexPath.section), with: .automatic)
     }
