@@ -9,7 +9,9 @@ import UIKit
 
 class TaskListController: UITableViewController {
     
-    var tasksStatusPosition: [TaskStatus] = [.planed, .completed]
+    var storageManager: TasksStorageProtocol!
+    
+    var tasksStatusPosition: [TaskStatus] = [.planned, .completed]
     
     var tasks: [TaskPriority: [TaskProtocol]] = [:] {
         didSet {
@@ -30,11 +32,35 @@ class TaskListController: UITableViewController {
         super.viewDidLoad()
         
         title = "To-Do Manager"
+        
+        storageManager = TasksStorage()
         navigationItem.leftBarButtonItem = editButtonItem
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showNextScreen))
         
         tableView.register(TaskListCell.self, forCellReuseIdentifier: TaskListCell.identifier)
         loadTasks()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        saveTasks()
+    }
+    
+    private  func saveTasks() {
+        var savingArray: [TaskProtocol] = []
+        tasks.forEach { _, value in
+            savingArray += value
+        }
+        storageManager.saveTask(savingArray)
+    }
+    
+    func setTasks(_ tasksCollection: [TaskProtocol]) {
+        sectionsTypesPosition.forEach { taskType in
+            tasks[taskType] = []
+        }
+        tasksCollection.forEach { task in
+            tasks[task.type]?.append(task)
+        }
     }
 }
 
@@ -56,14 +82,14 @@ extension TaskListController {
             tasks[taskType] = []
         }
         
-        TasksStorage.shared.loadTasks().forEach { task in
+        storageManager.fetchTasks().forEach { task in
             tasks[task.type]?.append(task)
         }
     }
     
     private func getSymbolForTask(with status: TaskStatus) -> String {
         var resultSymbol: String
-        if status == .planed {
+        if status == .planned {
             resultSymbol = "\u{25CB}"
         } else if status == .completed {
             resultSymbol = "\u{25C9}"
@@ -99,7 +125,7 @@ extension TaskListController {
         cell.titleLabel.text = currentTask.title
         cell.symbolLabel.text = getSymbolForTask(with: currentTask.status)
         
-        if currentTask.status == .planed {
+        if currentTask.status == .planned {
             cell.titleLabel.textColor = .black
             cell.symbolLabel.textColor = .black
         } else {
@@ -121,9 +147,12 @@ extension TaskListController {
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
         let taskType = sectionsTypesPosition[indexPath.section]
         tasks[taskType]?.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .automatic)
+        
+        storageManager.deleteTask(at: indexPath.row)
     }
     
     override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
@@ -149,7 +178,7 @@ extension TaskListController {
         let taskType = sectionsTypesPosition[indexPath.section]
         guard let _ = tasks[taskType]?[indexPath.row] else { return }
         
-        guard tasks[taskType]![indexPath.row].status == .planed else {
+        guard tasks[taskType]![indexPath.row].status == .planned else {
             tableView.deselectRow(at: indexPath, animated: true)
             return
         }
@@ -163,7 +192,7 @@ extension TaskListController {
         guard let _ = tasks[taskType]?[indexPath.row] else { return nil }
         
         let actionSwipeInstance = UIContextualAction(style: .normal, title: "Не выполнена") { _, _, _ in
-            self.tasks[taskType]![indexPath.row].status = .planed
+            self.tasks[taskType]![indexPath.row].status = .planned
             self.tableView.reloadSections(IndexSet(arrayLiteral: indexPath.section), with: .automatic)
         }
         let actionEditInstance = UIContextualAction(style: .normal, title: "Изменить") { _, _, _ in
