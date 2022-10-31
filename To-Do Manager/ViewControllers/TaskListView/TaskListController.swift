@@ -9,9 +9,14 @@ import UIKit
 
 class TaskListController: UITableViewController {
     
+    // MARK: - Public properties
     var storageManager: TasksStorageProtocol!
     
+    // порядок отображения задач по их статусу
     var tasksStatusPosition: [TaskStatus] = [.planned, .completed]
+    
+    // порядок отображения секций по типам
+    var sectionsTypesPosition: [TaskPriority] = [.important, .normal]
     
     var tasks: [TaskPriority: [TaskProtocol]] = [:] {
         didSet {
@@ -21,19 +26,19 @@ class TaskListController: UITableViewController {
                     let task1position = tasksStatusPosition.firstIndex(of: task1.status) ?? 0
                     let task2position = tasksStatusPosition.firstIndex(of: task2.status) ?? 0
                     return task1position < task2position
+                    
                 }
             }
         }
     }
     
-    var sectionsTypesPosition: [TaskPriority] = [.important, .normal]
     
+    // MARK: - Life cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "To-Do Manager"
-        
         storageManager = TasksStorage()
+        
         navigationItem.leftBarButtonItem = editButtonItem
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showNextScreen))
         
@@ -46,12 +51,16 @@ class TaskListController: UITableViewController {
         saveTasks()
     }
     
-    private  func saveTasks() {
-        var savingArray: [TaskProtocol] = []
-        tasks.forEach { _, value in
-            savingArray += value
+    
+    // MARK: - Public methods
+    @objc func showNextScreen() {
+        let taskEditVC = TaskEditController(style: .grouped)
+        taskEditVC.doAfterEdit = { [unowned self] title, type, status in
+            let newTask = Task(title: title, type: type, status: status)
+            tasks[type]?.append(newTask)
+            tableView.reloadData()
         }
-        storageManager.saveTask(savingArray)
+        navigationController?.pushViewController(taskEditVC, animated: true)
     }
     
     func setTasks(_ tasksCollection: [TaskProtocol]) {
@@ -62,31 +71,27 @@ class TaskListController: UITableViewController {
             tasks[task.type]?.append(task)
         }
     }
-}
-
-extension TaskListController {
     
-    @objc func showNextScreen() {
-        let taskEditVC = TaskEditController(style: .grouped)
-        taskEditVC.doAfterEdit = { [unowned self] title, type, status in
-            let newTask = Task(title: title, type: type, status: status)
-            tasks[type]?.append(newTask)
-            tableView.reloadData()
+    // MARK: - Private methods
+    private  func saveTasks() {
+        var savingArray: [TaskProtocol] = []
+        tasks.forEach { _, value in
+            savingArray += value
         }
-        
-        navigationController?.pushViewController(taskEditVC, animated: true)
+        storageManager.saveTask(savingArray)
     }
     
     private func loadTasks() {
         sectionsTypesPosition.forEach { taskType in
             tasks[taskType] = []
         }
-        
+        // загрузка и разбор задач из хранилища
         storageManager.fetchTasks().forEach { task in
             tasks[task.type]?.append(task)
         }
     }
     
+    // символ для соответствующего типа задачи
     private func getSymbolForTask(with status: TaskStatus) -> String {
         var resultSymbol: String
         if status == .planned {
@@ -100,9 +105,9 @@ extension TaskListController {
     }
 }
 
-// MARK: - UITableViewDataSource
+
+// MARK: - Table view data source
 extension TaskListController {
-    
     override func numberOfSections(in tableView: UITableView) -> Int {
         tasks.count
     }
@@ -171,7 +176,7 @@ extension TaskListController {
     }
 }
 
-// MARK: - UITableViewDelegate
+// MARK: - Table view delegate
 extension TaskListController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -219,4 +224,3 @@ extension TaskListController {
         return actionsConfiguration
     }
 }
-

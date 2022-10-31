@@ -9,23 +9,29 @@ import UIKit
 
 class TaskTypeController: UITableViewController {
     
+    //  Кортеж, описывающий тип задачи
     typealias TypeCellDescription = (type: TaskPriority, title: String, description: String)
     
+    // MARK: - Public properties
+    var delegate: TaskTypeControllerDelegate!
+    var selectedType: TaskPriority = .normal
+    
+    // MARK: - Private properties
+    // Коллекция доступных типов задач с их описанием
     private var taskTypesInformation: [TypeCellDescription] = [
         (type: .important, title: "Важная", description: "Такой тип задач является наиболее приоритетным для выполнения. Все важные задачи выводятся в самом верху списка задач"),
         (type: .normal, title: "Текущая", description: "Задача с обычным приоритетом")
     ]
     
-    var selectedType: TaskPriority = .normal
     
-    var delegate: TaskTypeControllerDelegate!
-    
+    // MARK: - Life cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.register(InfoCell.self, forCellReuseIdentifier: InfoCell.identifier)
         tableView.backgroundColor = .systemGroupedBackground
     }
+    
     
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {

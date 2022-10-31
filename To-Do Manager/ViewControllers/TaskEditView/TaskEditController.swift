@@ -13,21 +13,25 @@ protocol TaskTypeControllerDelegate {
 
 class TaskEditController: UITableViewController, TaskTypeControllerDelegate {
     
+    // MARK: - Public properties
     var doAfterTypeSelected: ((TaskPriority) -> Void)?
+    var doAfterEdit: ((String, TaskPriority, TaskStatus) -> Void)?
     
     // параметры задачи
     var taskText: String = ""
     var taskType: TaskPriority = .normal
-    var taskStatus: TaskStatus = .planed
+    var taskStatus: TaskStatus = .planned
     
+    
+    // MARK: - Private properties
     // название типов задач
     private var taskTitles: [TaskPriority: String] = [
         .important: "Важная",
         .normal: "Текущая"
     ]
     
-    var doAfterEdit: ((String, TaskPriority, TaskStatus) -> Void)?
     
+    // MARK: - Life cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -36,7 +40,6 @@ class TaskEditController: UITableViewController, TaskTypeControllerDelegate {
         tableView.register(TaskStatusCell.self, forCellReuseIdentifier: TaskStatusCell.identifier)
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Сохранить", style: .plain, target: self, action: #selector(saveTask))
-        
     }
     
     @objc func saveTask() {
@@ -47,7 +50,8 @@ class TaskEditController: UITableViewController, TaskTypeControllerDelegate {
         let cell1 = tableView.cellForRow(at: indexPath1) as! TaskStatusCell
         let title = cell.textField.text ?? ""
         let type = taskType
-        let status: TaskStatus = cell1.statusSwitch.isOn ? .completed : .planed
+        
+        let status: TaskStatus = cell1.statusSwitch.isOn ? .completed : .planned
         doAfterEdit?(title, type, status)
         navigationController?.popViewController(animated: true)
     }
@@ -97,5 +101,3 @@ class TaskEditController: UITableViewController, TaskTypeControllerDelegate {
         navigationController?.pushViewController(taskTypeVC, animated: true)
     }
 }
-
-

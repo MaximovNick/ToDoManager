@@ -1,5 +1,5 @@
 //
-//  TaskCell.swift
+//  TaskListCell.swift
 //  To-Do Manager
 //
 //  Created by Nikolai Maksimov on 25.10.2022.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TaskCell: UITableViewCell {
+class TaskListCell: UITableViewCell {
     
     static let identifier = "TaskCell"
     
@@ -31,9 +31,7 @@ class TaskCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-}
-
-extension TaskCell {
+    
     private func createLabel(withSize size: CGFloat? = nil, textColor color: UIColor? = nil) -> UILabel {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: size ?? 14)
@@ -42,9 +40,7 @@ extension TaskCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }
-}
-
-extension TaskCell {
+    
     private func setConstraints() {
         
         symbolLabel.setContentHuggingPriority(.dragThatCanResizeScene, for: .horizontal)

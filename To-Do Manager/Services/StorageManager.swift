@@ -16,7 +16,7 @@ protocol TasksStorageProtocol {
 
 // Сущность "Хранилище задач"
 class TasksStorage: TasksStorageProtocol {
-    
+   
     // Ссылка на хранилище
     private var userDefaults = UserDefaults.standard
     
@@ -38,7 +38,7 @@ class TasksStorage: TasksStorageProtocol {
                   let typeRaw = task[TaskKey.type.rawValue],
                   let statusRaw = task[TaskKey.status.rawValue] else {
                 continue
-                
+
             }
             let type: TaskPriority = typeRaw == "important" ? .important : .normal
             let status: TaskStatus = statusRaw == "planned" ? .planned : .completed
@@ -46,7 +46,7 @@ class TasksStorage: TasksStorageProtocol {
         }
         return resultTasks
     }
-    
+
     func saveTask(_ tasks: [TaskProtocol]) {
         var arrayForStorage: [[String:String]] = []
         tasks.forEach { task in
@@ -58,8 +58,8 @@ class TasksStorage: TasksStorageProtocol {
         }
         userDefaults.set(arrayForStorage, forKey: taskKey)
     }
-    
-    
+
+
     func deleteTask(at index: Int) {
         let tasks = fetchTasks()
         var arrayForStorage: [[String:String]] = []
@@ -74,7 +74,3 @@ class TasksStorage: TasksStorageProtocol {
         userDefaults.set(arrayForStorage, forKey: taskKey)
     }
 }
-
-
-
-

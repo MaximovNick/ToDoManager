@@ -8,11 +8,11 @@
 import UIKit
 
 class TaskNameCell: UITableViewCell {
-
+    
     static let identifier = "TaskNameCell"
     
     let textField: UITextField = {
-       let textField = UITextField()
+        let textField = UITextField()
         textField.placeholder = "Введите задачу"
         textField.font = UIFont.systemFont(ofSize: 17)
         textField.borderStyle = .none
@@ -32,7 +32,6 @@ class TaskNameCell: UITableViewCell {
     }
     
     private func setConstraints() {
-        
         NSLayoutConstraint.activate([
             textField.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor, constant: 0),
             textField.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor, constant: 0),

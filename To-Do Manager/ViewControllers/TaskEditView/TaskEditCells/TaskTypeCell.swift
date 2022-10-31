@@ -8,7 +8,7 @@
 import UIKit
 
 class TaskTypeCell: UITableViewCell {
-
+    
     static let identifier = "TaskTypeCell"
     
     let taskTypeLabel: UILabel = {
@@ -18,7 +18,7 @@ class TaskTypeCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
+    
     let rightLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
@@ -31,7 +31,7 @@ class TaskTypeCell: UITableViewCell {
         
         contentView.addSubview(taskTypeLabel)
         contentView.addSubview(rightLabel)
-    
+        
         setConstraints()
     }
     

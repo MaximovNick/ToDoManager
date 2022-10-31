@@ -8,7 +8,7 @@
 import UIKit
 
 class InfoCell: UITableViewCell {
-
+    
     static let identifier = "InfoCell"
     
     let typeTitleLabel: UILabel = {
@@ -27,8 +27,6 @@ class InfoCell: UITableViewCell {
         return label
     }()
     
-    let stackView = UIStackView()
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -37,7 +35,7 @@ class InfoCell: UITableViewCell {
         
         setConstraints()
     }
-        
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

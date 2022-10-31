@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 // Тип задачи
 enum TaskPriority {
     // текущая
@@ -19,7 +18,7 @@ enum TaskPriority {
 // состояние задачи
 enum TaskStatus: Int {
     // запланированная
-    case planed
+    case planned
     // завершенная
     case completed
 }
