@@ -46,15 +46,32 @@ class TaskEditController: UITableViewController, TaskTypeControllerDelegate {
         // временно
         let indexPath = IndexPath(row: 0, section: 0)
         let cell = tableView.cellForRow(at: indexPath) as! TaskNameCell
+        
         let indexPath1 = IndexPath(row: 2, section: 0)
         let cell1 = tableView.cellForRow(at: indexPath1) as! TaskStatusCell
+        
         let title = cell.textField.text ?? ""
+        
+        if title == "" {
+            showAlert()
+            return
+        }
+        
         let type = taskType
         
         let status: TaskStatus = cell1.statusSwitch.isOn ? .completed : .planned
         doAfterEdit?(title, type, status)
         navigationController?.popViewController(animated: true)
     }
+    
+    private func showAlert() {
+        let alert = UIAlertController(title: "Ошибка", message: "Введите текст", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .default)
+        
+        alert.addAction(okAction)
+        present(alert, animated: true)
+    }
+    
     
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -71,7 +88,9 @@ class TaskEditController: UITableViewController, TaskTypeControllerDelegate {
             
         case 0:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: TaskNameCell.identifier) as? TaskNameCell else { return UITableViewCell() }
+
             cell.textField.text = taskText
+            
             return cell
             
         case 1:
