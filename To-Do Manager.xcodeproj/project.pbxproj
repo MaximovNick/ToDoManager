@@ -21,6 +21,7 @@
 		AD1B0522290AE2F3009DAC3C /* TaskStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1B0521290AE2F3009DAC3C /* TaskStatusCell.swift */; };
 		AD1B0525290AE42C009DAC3C /* TaskTypeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1B0524290AE42C009DAC3C /* TaskTypeController.swift */; };
 		AD1B0528290AE49E009DAC3C /* InfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1B0527290AE49E009DAC3C /* InfoCell.swift */; };
+		ADABEF6E2912BBBA0032BCE3 /* DefaultTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADABEF6D2912BBBA0032BCE3 /* DefaultTextView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		AD1B0521290AE2F3009DAC3C /* TaskStatusCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskStatusCell.swift; sourceTree = "<group>"; };
 		AD1B0524290AE42C009DAC3C /* TaskTypeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTypeController.swift; sourceTree = "<group>"; };
 		AD1B0527290AE49E009DAC3C /* InfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCell.swift; sourceTree = "<group>"; };
+		ADABEF6D2912BBBA0032BCE3 /* DefaultTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultTextView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,16 +74,18 @@
 		AD0D316A29086AED005F12EE /* To-Do Manager */ = {
 			isa = PBXGroup;
 			children = (
-				AD0D318229086E26005F12EE /* App */,
 				AD0D318429086E7E005F12EE /* Models */,
+				AD1B051B290AE1C9009DAC3C /* TaskListModule */,
+				AD1B0519290AE149009DAC3C /* TaskEditModule */,
+				AD1B0523290AE3E5009DAC3C /* TaskTypeModule */,
 				AD0D318629086F0E005F12EE /* Services */,
-				AD0D318329086E5B005F12EE /* ViewControllers */,
 				AD0D318529086EC5005F12EE /* Resources */,
+				AD0D318229086E26005F12EE /* SupportingFiles */,
 			);
 			path = "To-Do Manager";
 			sourceTree = "<group>";
 		};
-		AD0D318229086E26005F12EE /* App */ = {
+		AD0D318229086E26005F12EE /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
 				AD0D316B29086AED005F12EE /* AppDelegate.swift */,
@@ -89,17 +93,7 @@
 				AD0D317929086AEE005F12EE /* Info.plist */,
 				AD0D317629086AEE005F12EE /* LaunchScreen.storyboard */,
 			);
-			path = App;
-			sourceTree = "<group>";
-		};
-		AD0D318329086E5B005F12EE /* ViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-				AD1B051B290AE1C9009DAC3C /* TaskListView */,
-				AD1B0519290AE149009DAC3C /* TaskEditView */,
-				AD1B0523290AE3E5009DAC3C /* TaskTypeView */,
-			);
-			path = ViewControllers;
+			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
 		AD0D318429086E7E005F12EE /* Models */ = {
@@ -126,57 +120,106 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
-		AD0D3187290871D2005F12EE /* TaskListCells */ = {
+		AD0D3187290871D2005F12EE /* Cells */ = {
 			isa = PBXGroup;
 			children = (
 				AD0D3188290871F8005F12EE /* TaskListCell.swift */,
 			);
-			path = TaskListCells;
+			path = Cells;
 			sourceTree = "<group>";
 		};
-		AD1B0519290AE149009DAC3C /* TaskEditView */ = {
+		AD1B0519290AE149009DAC3C /* TaskEditModule */ = {
 			isa = PBXGroup;
 			children = (
-				AD1B051A290AE1AB009DAC3C /* TaskEditCells */,
-				AD1B0517290AE141009DAC3C /* TaskEditController.swift */,
+				ADABEF682912B7010032BCE3 /* Controllers */,
+				ADABEF6B2912B9D40032BCE3 /* Views */,
 			);
-			path = TaskEditView;
+			path = TaskEditModule;
 			sourceTree = "<group>";
 		};
-		AD1B051A290AE1AB009DAC3C /* TaskEditCells */ = {
+		AD1B051A290AE1AB009DAC3C /* Cells */ = {
 			isa = PBXGroup;
 			children = (
 				AD1B051D290AE2BB009DAC3C /* TaskNameCell.swift */,
 				AD1B051F290AE2CD009DAC3C /* TaskTypeCell.swift */,
 				AD1B0521290AE2F3009DAC3C /* TaskStatusCell.swift */,
 			);
-			path = TaskEditCells;
+			path = Cells;
 			sourceTree = "<group>";
 		};
-		AD1B051B290AE1C9009DAC3C /* TaskListView */ = {
+		AD1B051B290AE1C9009DAC3C /* TaskListModule */ = {
 			isa = PBXGroup;
 			children = (
-				AD0D3187290871D2005F12EE /* TaskListCells */,
-				AD0D317F29086C34005F12EE /* TaskListController.swift */,
+				ADABEF672912B6DE0032BCE3 /* Controllers */,
+				ADABEF6A2912B9B10032BCE3 /* Views */,
 			);
-			path = TaskListView;
+			path = TaskListModule;
 			sourceTree = "<group>";
 		};
-		AD1B0523290AE3E5009DAC3C /* TaskTypeView */ = {
+		AD1B0523290AE3E5009DAC3C /* TaskTypeModule */ = {
 			isa = PBXGroup;
 			children = (
-				AD1B0526290AE448009DAC3C /* TaskTypeCells */,
-				AD1B0524290AE42C009DAC3C /* TaskTypeController.swift */,
+				ADABEF692912B75D0032BCE3 /* Controllers */,
+				ADABEF6C2912B9E60032BCE3 /* Views */,
 			);
-			path = TaskTypeView;
+			path = TaskTypeModule;
 			sourceTree = "<group>";
 		};
-		AD1B0526290AE448009DAC3C /* TaskTypeCells */ = {
+		AD1B0526290AE448009DAC3C /* Cells */ = {
 			isa = PBXGroup;
 			children = (
 				AD1B0527290AE49E009DAC3C /* InfoCell.swift */,
 			);
-			path = TaskTypeCells;
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		ADABEF672912B6DE0032BCE3 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				AD0D317F29086C34005F12EE /* TaskListController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		ADABEF682912B7010032BCE3 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				AD1B0517290AE141009DAC3C /* TaskEditController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		ADABEF692912B75D0032BCE3 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				AD1B0524290AE42C009DAC3C /* TaskTypeController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		ADABEF6A2912B9B10032BCE3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AD0D3187290871D2005F12EE /* Cells */,
+				ADABEF6D2912BBBA0032BCE3 /* DefaultTextView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		ADABEF6B2912B9D40032BCE3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AD1B051A290AE1AB009DAC3C /* Cells */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		ADABEF6C2912B9E60032BCE3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AD1B0526290AE448009DAC3C /* Cells */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -251,6 +294,7 @@
 			files = (
 				AD0D3189290871F8005F12EE /* TaskListCell.swift in Sources */,
 				AD1B051E290AE2BB009DAC3C /* TaskNameCell.swift in Sources */,
+				ADABEF6E2912BBBA0032BCE3 /* DefaultTextView.swift in Sources */,
 				AD0D316C29086AED005F12EE /* AppDelegate.swift in Sources */,
 				AD1B0505290944E4009DAC3C /* StorageManager.swift in Sources */,
 				AD1B0522290AE2F3009DAC3C /* TaskStatusCell.swift in Sources */,
@@ -401,7 +445,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JPSP84G8W5;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "To-Do Manager/App/Info.plist";
+				INFOPLIST_FILE = "To-Do Manager/SupportingFiles/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -428,7 +472,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JPSP84G8W5;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "To-Do Manager/App/Info.plist";
+				INFOPLIST_FILE = "To-Do Manager/SupportingFiles/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

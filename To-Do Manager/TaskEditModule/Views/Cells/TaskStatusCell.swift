@@ -29,7 +29,7 @@ class TaskStatusCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(statusLabel)
         contentView.addSubview(statusSwitch)
-        
+        selectionStyle = .none
         setConstraints()
     }
     

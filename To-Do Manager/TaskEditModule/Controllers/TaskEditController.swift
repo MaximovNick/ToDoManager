@@ -39,6 +39,7 @@ class TaskEditController: UITableViewController, TaskTypeControllerDelegate {
         tableView.register(TaskTypeCell.self, forCellReuseIdentifier: TaskTypeCell.identifier)
         tableView.register(TaskStatusCell.self, forCellReuseIdentifier: TaskStatusCell.identifier)
         
+        navigationItem.backButtonTitle = "Назад"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Сохранить", style: .plain, target: self, action: #selector(saveTask))
     }
     

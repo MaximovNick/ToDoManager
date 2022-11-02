@@ -36,9 +36,10 @@ class TaskListController: UITableViewController {
     // MARK: - Life cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        title = "Список задач"
         storageManager = TasksStorage()
         
+        navigationItem.backButtonTitle = "Назад"
         navigationItem.leftBarButtonItem = editButtonItem
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showNextScreen))
         
@@ -113,6 +114,9 @@ extension TaskListController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        
+        
         let taskType = sectionsTypesPosition[section]
         guard let currentTasksType = tasks[taskType] else { return 0 }
         return currentTasksType.count
@@ -126,7 +130,7 @@ extension TaskListController {
         
         let taskType = sectionsTypesPosition[indexPath.section]
         guard let currentTask = tasks[taskType]?[indexPath.row] else { return cell }
-        
+                
         cell.titleLabel.text = currentTask.title
         cell.symbolLabel.text = getSymbolForTask(with: currentTask.status)
         
